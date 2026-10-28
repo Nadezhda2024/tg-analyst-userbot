@@ -1,6 +1,21 @@
-import os
 import asyncio
 import sys
+import os
+
+# Принудительно создаем event loop в главном потоке для совместимости с Python 3.14+
+try:
+    loop = asyncio.get_event_loop()
+except RuntimeError:
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+
+# Фиксируем путь к папке src, чтобы импорты 'bot.handlers' работали из любой точки запуска
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+SRC_DIR = os.path.join(CURRENT_DIR, "src")
+if SRC_DIR not in sys.path:
+    sys.path.insert(0, SRC_DIR)
+
+# Безопасный импорт библиотек и внутренних модулей проекта
 from pyrogram import Client
 from dotenv import load_dotenv
 from bot.handlers import register_handlers
@@ -18,7 +33,7 @@ app = Client(
     lang_code="ru"
 )
 
-async def main():
+async def start_bot():
     # Регистрируем сквозные обработчики сбора и анализа данных
     await register_handlers(app)
     
@@ -32,16 +47,4 @@ async def main():
     await app.stop()
 
 if __name__ == "__main__":
-    # Безопасный паттерн запуска для Python 3.14+, исключающий конфликты циклов событий
-    try:
-        running_loop = asyncio.get_running_loop()
-    except RuntimeError:
-        running_loop = None
-
-    if running_loop and running_loop.is_running():
-        # Если скрипт вызван внутри запущенного event loop (например, из Jupyter Notebook)
-        task = running_loop.create_task(main())
-        print("[JUPYTER] Асинхронная задача юзербота успешно делегирована текущему циклу блокнота.")
-    else:
-        # Если скрипт запущен стандартно напрямую через консоль PowerShell
-        asyncio.run(main())
+    loop.run_until_complete(start_bot())

@@ -1,8 +1,8 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from models.ollama_client import OllamaAnalyst
+from models.yandex_client import YandexAnalyst
 
-analyst = OllamaAnalyst(model_name="deepseek-r1:1.5b")
+analyst = YandexAnalyst()
 
 async def register_handlers(app: Client):
     
@@ -11,7 +11,6 @@ async def register_handlers(app: Client):
         chat_id = message.chat.id
         chat_title = message.chat.title or "Личный диалог"
         messages_text = []
-        has_screenshot = False
         
         # 1. Сразу удаляем команду из рабочего чата
         await message.delete()
@@ -30,18 +29,12 @@ async def register_handlers(app: Client):
                     author = msg.from_user.first_name if msg.from_user else "Система"
                     messages_text.append(f"{author}: {text_content}")
                     
-                # Фиксируем факт наличия медиа в истории переписки без скачивания на диск
-                if not has_screenshot:
-                    if msg.photo or (msg.document and msg.document.mime_type and "image" in msg.document.mime_type):
-                        has_screenshot = True
-            
             messages_text.reverse()
             chat_context = "\n".join(messages_text)
             
-            await status_message.edit_text(f"🤖 **Контекст чата «{chat_title}» собран. DeepSeek-R1 генерирует саммари...**")
+            await status_message.edit_text(f"🤖 **Контекст чата «{chat_title}» собран. Yandex AI Studio генерирует саммари...**")
             
-            # 4. Передаем аргументы последовательно во избежание конфликта имен переменных
-            summary_result = await analyst.generate_summary(chat_context, has_screenshot)
+            summary_result = await analyst.generate_summary(chat_context)
             
             # 5. Выводим готовый отчет
             final_report = f"📋 **Саммари чата: {chat_title}**\n\n{summary_result}"

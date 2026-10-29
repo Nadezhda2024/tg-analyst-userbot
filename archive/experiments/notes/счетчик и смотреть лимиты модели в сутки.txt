@@ -1,0 +1,6 @@
+первая команда в терминале
+$headers = @{ "Authorization" = "Bearer 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" }
+
+вторая команда в терминали (в ответе см последнюю строку)
+(Invoke-WebRequest -Uri "https://openrouter.ai/api/v1/key" -Headers $headers -UseBasicParsing).Content
+https://openrouter.ai/api/v1/key

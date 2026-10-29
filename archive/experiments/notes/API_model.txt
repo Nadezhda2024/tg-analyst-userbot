@@ -1,0 +1,63 @@
+Ключ API Gemini по умолчанию
+AQ.Ab8RN6KUxgFy1azYpwtdFHt2cxDUkByYSVw8vUeBfB3--LyQfg
+
+
+
+Qwen/Qwen3.6-35B-A3B
+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
+ # Правильный OpenAI-совместимый эндпоинт Hugging Face
+    url = "https://router.huggingface.co/v1/"
+https://api-inference.huggingface.co/models/{MODEL_ID}
+
+
+Qwen/Qwen2.5-72B-Instruct
+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
+
+  # Правильный OpenAI-совместимый эндпоинт Hugging Face
+    url = "https://router.huggingface.co/v1/"
+
+
+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
+
+Qwen/Qwen2.5-72B-Instruct
+
+
+
+
+
+
+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
+
+метод
+fetch('https://openrouter.ai/api/v1/chat/completions', {
+  method: 'POST',
+  headers: {
+    Authorization: 'Bearer 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',
+    'HTTP-Referer': '<YOUR_SITE_URL>',
+    'X-Title': '<YOUR_SITE_NAME>',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    model: 'openai/gpt-4o',
+    messages: [
+      {
+        role: 'user',
+        content: 'What is the meaning of life?',
+      },
+    ],
+  }),
+});
+
+REST API
+curl https://openrouter.ai/api/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer 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" \
+  -d '{
+  "model": "openai/gpt-4o",
+  "messages": [
+    {
+      "role": "user",
+      "content": "What is the meaning of life?"
+    }
+  ]
+}'

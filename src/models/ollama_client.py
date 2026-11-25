@@ -45,7 +45,7 @@ class OllamaAnalyst:
             "stream": False,
         }
 
-        async with httpx.AsyncClient(timeout=90.0) as client:
+        async with httpx.AsyncClient(timeout=600.0) as client:
             response = await client.post(self.api_url, json=payload)
 
         response.raise_for_status()

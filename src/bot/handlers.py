@@ -44,12 +44,12 @@ async def register_handlers(app: Client):
 
             final_report = (
                 f"📋 **[{provider_label}] Саммари чата: {chat_title}**\n\n"
-                f"{summary_result}"
+                f"{summary_result[:3900]}"
             )
-            await status_message.edit_text(final_report)
+            await status_message.edit_text(final_report[:4000])
         except Exception as e:
-            error_msg = f"❌ **Ошибка аналитики:** {str(e)}\n\n```powershell\n{traceback.format_exc()}```"
-            await status_message.edit_text(error_msg)
+            error_msg = f"❌ **Ошибка аналитики:** {str(e)}\n\n```powershell\n{traceback.format_exc()[:3800]}\n```"
+            await status_message.edit_text(error_msg[:4000])
 
     @app.on_message(filters.me & filters.command("summary", prefixes="."))
     async def handle_local_summary(client: Client, message: Message) -> None:

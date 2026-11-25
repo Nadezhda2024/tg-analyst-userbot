@@ -7,3 +7,5 @@ __pycache__/
 *.session*
 venv/
 env/
+счетчик и смотреть лимиты модели в сутки.txt
+API_model.txt
